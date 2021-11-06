@@ -1,36 +1,50 @@
 import java.io.*;
 
 public class FileManager {
-    static String pf = "D:\\Telegram Desktop\\";
-    static  int c = 0;
-    public static int countFiles(String paths) {
-        File path = new File (paths);
-        File [] innerPaths = path.listFiles();
+    static String copyFrom = "D:\\eng\\";
+    static String copyTo = "C:\\eng\\";
+    static String pathDir = "D:\\Telegram Desktop\\";
+    static int countFile = 0;
+    static int countDir = 0;
 
-        for (File innerPath: innerPaths){
-                if (innerPath.isFile())
-                    c++;
-                if (innerPath.isDirectory()) {
-                    countFiles("" + innerPath);
+    public static void copy(String from, String to){
+        new File(to).mkdirs();
+
+
+    }
+
+    public static int countDirs(String path) {
+        File paths = new File(path);
+        File[] innerPaths = paths.listFiles();
+        for (File innerPath : innerPaths) {
+            if (innerPath.isDirectory()) {
+                countDirs("" + innerPath);
+                countDir++;
 
             }
         }
-        return c;
+        return countDir;
+    }
+
+    public static int countFiles(String path) {
+        File paths = new File(path);
+        File[] innerPaths = paths.listFiles();
+        for (File innerPath : innerPaths) {
+            if (innerPath.isFile())
+                countFile++;
+            if (innerPath.isDirectory()) {
+                countFiles("" + innerPath);
+
+            }
+        }
+        return countFile;
     }
 
     public static void main(String... args) throws IOException {
-        File path = new File (pf);
-        File [] innerPaths = path.listFiles();
-        for (File innerPath: innerPaths){
-            if (innerPath.isFile())
-                c++;
-        if (innerPath.isDirectory()){
-            countFiles("" + innerPath);
-
-            }
-
-        }
-            System.out.println("Total files in directory "+ pf + " are "+c);
+        countFiles(pathDir);
+        countDirs(pathDir);
+        System.out.println("Total files in directory " + pathDir + " are " + countFile);
+        System.out.println("Total subdirectories in directory " + pathDir + " are " + countDir);
 
 
     }
