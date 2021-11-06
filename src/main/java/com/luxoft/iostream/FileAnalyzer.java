@@ -1,3 +1,5 @@
+package com.luxoft.iostream;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -8,7 +10,6 @@ public class FileAnalyzer {
     public static void main(String... args) throws Exception {
 
         InputStream is = new FileInputStream(args[0]);
-        // OutputStream os = new FileOutputStream("assets/out.txt");
         int c;
         int count = 0;
         String d = args[1];
