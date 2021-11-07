@@ -1,44 +1,45 @@
 package com.luxoft.iostream;
 
 import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
-
 import static com.luxoft.iostream.FileManager.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestIOStream {
+    public static final String pathDir = "D:\\";
+    public static final String pathNew = "C:\\test\\";
+    public static final String pathOld = "D:\\test\\";
+    public static final String subPath = "test\\";
 
     @Test
     public void testAddNewDirectory() {
-        String path = "D:\\test\\";
-        String subPath = "test\\";
-        mkdir(path + subPath + subPath);
-        assertEquals(2, countDirs(path));
+
+        mkdir(pathOld + subPath + subPath);
+            assertEquals(2, countDirs(pathOld));
     }
 
     @Test
     public void testRemoveDirectory() {
-        String path = "D:\\test\\";
-        String subPath = "test\\";
-        remove(new File(path + subPath));
-        assertEquals(0, countDirs(path));
+        remove(new File(pathOld + subPath));
+        assertEquals(0, countDirs(pathOld));
     }
 
     @Test
     public void testCounter() {
-        String pathDir = "D:\\test\\";
-        countFiles(pathDir);
-        countDirs(pathDir);
+        countFiles(pathOld);
+        countDirs(pathOld);
+
+    }
+    @Test
+    public void testMoveFile() throws IOException {
+        testCounter();
+        move(pathOld, pathNew);
     }
 
     @Test
-    public void testCopy() throws IOException {
-        String pathDir = "D:\\test\\";
-        String pathNew = "C:\\test\\";
-        String file = "Java Basics 05 final.pptx";
-            copy(pathDir, pathNew, file);
-//            move(pathDir, pathNew, file);
-   }
+    public void testCopyFile() {
+        testCounter();
+        copy(pathOld, pathNew);
+    }
 }

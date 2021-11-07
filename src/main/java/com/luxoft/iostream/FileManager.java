@@ -4,10 +4,11 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class FileManager {
-    static ArrayList listDir = new ArrayList();
-    static ArrayList listFile = new ArrayList();
-    public static void move(String from, String to,String file) throws IOException {
-        copy(from, to, file);
+    static ArrayList<String> listDir = new ArrayList();
+    static ArrayList<String> listFile = new ArrayList();
+
+    public static void move(String from, String to) throws IOException {
+        copy(from, to);
         System.out.println("Remove directory & Remove file " + to);
         File src = new File(from);
         remove(src);
@@ -27,10 +28,24 @@ public class FileManager {
         new File(path).mkdirs();
     }
 
-    public static void copy(String from, String to, String file) throws IOException {
-        mkdir(to);
-        File src = new File(from+file);
-        File dest = new File(to+file);
+    public static void copy(String from, String to) {
+
+        listDir.stream().map(s -> ("" + s).replace(from, to)).forEach(FileManager::mkdir);
+
+        for (Object o : listFile) {
+            try {
+                newCopy("" + o, ("" + o).replace(from, to));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private static void newCopy(String from, String to) throws IOException {
+
+        File src = new File(from);
+        File dest = new File(to);
 
         InputStream in = new FileInputStream(src);
         OutputStream out = new FileOutputStream(dest);
@@ -55,7 +70,7 @@ public class FileManager {
             for (File innerPath : innerPaths) {
                 if (innerPath.isDirectory()) {
                     countDirs("" + innerPath);
-                    listDir.add(innerPath);
+                    listDir.add("" + innerPath);
                 }
             }
         }
@@ -69,7 +84,7 @@ public class FileManager {
         if (innerPaths != null) {
             for (File innerPath : innerPaths) {
                 if (innerPath.isFile())
-                listFile.add("" + innerPath);
+                    listFile.add("" + innerPath);
                 if (innerPath.isDirectory()) {
                     countFiles("" + innerPath);
                 }
