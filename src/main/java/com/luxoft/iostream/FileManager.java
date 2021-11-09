@@ -21,7 +21,7 @@ public class FileManager {
             }
         }
         element.delete();
-        listDir = new ArrayList();
+    //    listDir = new ArrayList();
     }
 
     public static void mkdir(String path) {
