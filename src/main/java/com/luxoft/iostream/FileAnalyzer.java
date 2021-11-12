@@ -9,34 +9,35 @@ import java.util.*;
 public class FileAnalyzer {
     public static void main(String... args) throws Exception {
 
-        InputStream is = new FileInputStream(args[0]);
-        int c;
+        InputStream inputStream = new FileInputStream(args[0]);
+        int letter;
         int count = 0;
-        String d = args[1];
-        String str = "";
+        String word = args[1];
+        String string = "";
         ArrayList<String> words = new ArrayList<String>();
         ArrayList<Integer> separate = new ArrayList<Integer>();
         ArrayList<Integer> duck = new ArrayList<Integer>();
-        while ((c = is.read()) != -1) {
 
-            if ((char) c == 32) {
-                words.add(str);
-                if (str.equals(d)) {
+        while ((letter = inputStream.read()) != -1) {
+
+            if ((char) letter == 32) {
+                words.add(string);
+                if (string.equals(word)) {
                     duck.add(count);
                 }
                 count++;
-                str = "";
+                string = "";
             } else {
-                str += (char) c;
+                string += (char) letter;
             }
 
-            if ((char) c == 46 || (char) c == 63 || (char) c == 33) {
+            if ((char) letter == 46 || (char) letter == 63 || (char) letter == 33) {
                 separate.add(count);
             }
 
         }
 
-        is.close();
+        inputStream.close();
 
         for (int j = 0; j < duck.size(); j++) {
         int min = 0;
